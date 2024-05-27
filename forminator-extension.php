@@ -76,7 +76,7 @@ function forminator_form_ext_shortcode( $atts ) {
     $form_html = do_shortcode("[forminator_form id=$form_id]");
 
     if ( Forminator_API::count_entries( $form_id ) >= $limit ) {
-        return "Brak miejsc na szkolenie";
+        return "<p>Brak miejsc na szkolenie</p>";
     }
 
     return $form_html;
