@@ -35,8 +35,9 @@ function form_email_validation( $submit_errors, $form_id, $field_data_array ) {
         }
 
         $limit = isset($_POST['forminator_form_limit']) ? intval($_POST['forminator_form_limit']) : null;
+        
         if ( $limit && Forminator_API::count_entries( $form_id ) >= $limit ) {
-            $submit_errors[] = new WP_Error( 'forminator_form_limit_exceeded', 'Przekroczono limit zgłoszeń dla tego formularza' );
+            $submit_errors[]['email-2'] = __('Przekroczono limit zgłoszeń dla tego formularza' );
         }
 
         return $submit_errors;
@@ -64,8 +65,15 @@ function forminator_form_ext_shortcode( $atts ) {
         return "Form with ID $form_id does not exist";
     }
 
+    add_filter('forminator_render_form_submit_markup', function( $html, $form_ID ) use ( $form_id, $limit ) {
+        if ( (int) $form_ID === (int) $form_id ) {
+            $html .= '<input type="hidden" name="forminator_form_limit" value="' . esc_attr($limit) . '" />';
+        }
+        
+        return $html;
+    }, 10, 2);
+
     $form_html = do_shortcode("[forminator_form id=$form_id]");
-    $form_html .= '<input type="hidden" name="forminator_form_limit" value="' . esc_attr($limit) . '" />';
 
     if ( Forminator_API::count_entries( $form_id ) >= $limit ) {
         return "Brak miejsc na szkolenie";
@@ -79,5 +87,3 @@ function register_forminator_form_ext_shortcode() {
 }
 
 add_action( 'init', 'register_forminator_form_ext_shortcode' );
-
-
