@@ -23,7 +23,7 @@ function check_forminator_plugin_state() {
 
 add_action('admin_init', 'check_forminator_plugin_state');
 
-function form_validation( $submit_errors, $form_id, $field_data_array ) {
+function form_email_validation( $submit_errors, $form_id, $field_data_array ) {
     if ( isset($_POST['email-1']) && isset($_POST['email-2']) ) {
 
         $fields = [];
@@ -33,12 +33,12 @@ function form_validation( $submit_errors, $form_id, $field_data_array ) {
         if ( count(array_unique($fields)) !== 1 ) {
             $submit_errors[][ 'email-2'] = __( 'E-maile nie są takie same' );
         }
-        
+
         return $submit_errors;
     }
 }
 
-add_filter('forminator_custom_form_submit_errors', 'form_validation', 10, 3);
+add_filter('forminator_custom_form_submit_errors', 'form_email_validation', 10, 3);
 
 function sroda_ts_form_shortcode( $atts ) {
     $atts = shortcode_atts( array(
