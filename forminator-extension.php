@@ -40,11 +40,11 @@ function form_email_validation( $submit_errors, $form_id, $field_data_array ) {
 
 add_filter('forminator_custom_form_submit_errors', 'form_email_validation', 10, 3);
 
-function sroda_ts_form_shortcode( $atts ) {
+function forminator_form_ext_shortcode( $atts ) {
     $atts = shortcode_atts( array(
         'id' => null,
         'limit' => 30
-    ), $atts, 'sroda_ts_form');
+    ), $atts, 'forminator_form_ext');
 
     $form_id = $atts['id'];
     $limit = $atts['limit'];
@@ -60,8 +60,8 @@ function sroda_ts_form_shortcode( $atts ) {
     return do_shortcode("[forminator_form id=$form_id]");
 }
 
-function register_sroda_ts_form_shortcode() {
-    add_shortcode( 'sroda_ts_form', 'sroda_ts_form_shortcode' );
+function register_forminator_form_ext_shortcode() {
+    add_shortcode( 'forminator_form_ext', 'forminator_form_ext_shortcode' );
 }
 
-add_action( 'init', 'register_sroda_ts_form_shortcode' );
+add_action( 'init', 'register_forminator_form_ext_shortcode' );
