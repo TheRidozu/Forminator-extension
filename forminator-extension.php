@@ -56,9 +56,9 @@ function forminator_form_ext_shortcode( $atts ) {
 
     global $post;
     
-    // if ( has_shortcode( $post->post_content, 'forminator_form_ext' ) ) {
-    //     wp_enqueue_script( 'forminator-extension-script', plugins_url( '/assets/js/forminator-extension.js', __FILE__ ), array(), '1.0.0', true );
-    // }
+    if ( has_shortcode( $post->post_content, 'forminator_form_ext' ) ) {
+        wp_enqueue_script( 'forminator-extension-script', plugins_url( '/assets/js/forminator-extension.js', __FILE__ ), array(), '1.0.0', true );
+    }
 
     if ( is_wp_error( Forminator_API::get_form( $form_id ) ) ) {
         return "Form with ID $form_id does not exist";
