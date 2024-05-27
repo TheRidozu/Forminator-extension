@@ -24,17 +24,18 @@ function check_forminator_plugin_state() {
 add_action('admin_init', 'check_forminator_plugin_state');
 
 function form_validation( $submit_errors, $form_id, $field_data_array ) {
-    if ( (int) $form_id !== 10 && (int) $form_id !== 11 ) return;
+    if ( isset($_POST['email-1']) && isset($_POST['email-2']) ) {
 
-    $fields = [];
-    $fields[] = $_POST['email-1'];
-    $fields[] = $_POST['email-2'];
+        $fields = [];
+        $fields[] = $_POST['email-1'];
+        $fields[] = $_POST['email-2'];
 
-    if ( count(array_unique($fields)) !== 1 ) {
-        $submit_errors[][ 'email-2'] = __( 'E-maile nie są takie same' );
+        if ( count(array_unique($fields)) !== 1 ) {
+            $submit_errors[][ 'email-2'] = __( 'E-maile nie są takie same' );
+        }
+        
+        return $submit_errors;
     }
-
-    return $submit_errors;
 }
 
 add_filter('forminator_custom_form_submit_errors', 'form_validation', 10, 3);
