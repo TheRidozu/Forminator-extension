@@ -35,3 +35,4 @@ The shortcode [forminator_form_ext] is used to display forms created with the Fo
 1. Ensure that Forminator plugin is installed.
 2. Ensure that the form with the provided ID exists in the system.
 3. Ensure that forminator form has fields email-1 & email-2.
+4. New in version 1.0.1: Added functionality to check if an email is in the database.
