@@ -32,6 +32,15 @@ function form_email_validation( $submit_errors, $form_id, $field_data_array ) {
 
         if ( count(array_unique($fields)) !== 1 ) {
             $submit_errors[][ 'email-2'] = __( 'E-maile nie są takie same' );
+
+            return $submit_errors;
+        }
+
+        
+        if ( isEmailInDb($form_id, $_POST['email-1']) ) {
+            $submit_errors[]['email-2'] = __("Podany e-mail jest już zapisany");
+
+            return $submit_errors;
         }
 
         $limit = isset($_POST['forminator_form_limit']) ? intval($_POST['forminator_form_limit']) : null;
@@ -45,6 +54,16 @@ function form_email_validation( $submit_errors, $form_id, $field_data_array ) {
 }
 
 add_filter('forminator_custom_form_submit_errors', 'form_email_validation', 10, 3);
+
+function isEmailInDb( $form_id, $email ) {
+    $db_emails = array();
+    
+    foreach( Forminator_API::get_entries( $form_id, 'email' ) as $entry ) {
+        array_push($db_emails, $entry->meta_data['email-1']['value']);
+    }
+    
+    return in_array($email, $db_emails);
+}
 
 function forminator_form_ext_shortcode( $atts ) {
     $atts = shortcode_atts( array(
